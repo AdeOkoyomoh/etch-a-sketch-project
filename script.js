@@ -10,14 +10,18 @@ function generatePixel(){
     sketchPad.innerHTML += '<div class="pixel"></div>';
 }
 
-function changeBG(){
-    this.style.cssText = 'background-color: purple;'
+function changeBG(div){
+    div.classList.add('changed');
+}
+
+function erase(div) {
+    div.classList.remove('changed');
 }
 
 function populateBoard(){
     let num = prompt("How many pixels?");
 
-    if (num >= 16 || num <= 100){
+    if (num >= 16 && num <= 64){
 
     let numberOfPixels = num * num;
 
@@ -30,7 +34,14 @@ function populateBoard(){
     let pixels = document.querySelectorAll('.pixel');
 
     pixels.forEach(div => {
-        div.addEventListener('mouseover', changeBG);
+        div.addEventListener('mouseover', function(e){
+            if (e.ctrlKey === true){
+                changeBG(div);
+            }
+            else if (e.shiftKey === true){
+                erase(div);
+            }
+        });
     });
 
    }
@@ -44,7 +55,7 @@ function clearBoard(){
     let pixels = document.querySelectorAll('.pixel');
 
     pixels.forEach(div => {
-        div.style.cssText = 'background-color: rgb(223, 223, 223)';
+        div.classList.remove('changed');
     })
 }
 
